@@ -124,11 +124,10 @@ On the bundled synthetic data, the holdout MAE is about 6.4 boardings per route-
 the baseline. The synthetic data includes a small week-over-week growth trend, which a plain historical
 average lags behind. These numbers describe the synthetic data only.
 
-## Describing it in an interview
 
-> "I built CampusCommute as a full-stack transportation analytics demo. The Python backend stores hourly route
+> I built CampusCommute as a full-stack transportation analytics demo. The Python backend stores hourly route
 > observations in SQLite, forecasts boardings from historical weekday and hour patterns, and exposes the
 > results through a JSON API. I built a responsive JavaScript dashboard for exploring routes and comparing
 > capacity-based schedule suggestions. I also added CSV import and export, a last-week holdout evaluation,
 > automated tests, and a GitHub Actions workflow. The bundled dataset is synthetic, so I present the schedule
-> results as planning estimates rather than measured improvements."
+> results as planning estimates rather than measured improvements.
