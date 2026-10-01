@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Compile
+        run: python -m compileall -q campuscommute tests
+      - name: Run tests
+        run: python -m unittest discover -v
+      - name: Smoke-test the server
+        run: |
+          python -m campuscommute --port 8000 --db /tmp/ci.db &
+          for i in $(seq 1 20); do curl -fs http://127.0.0.1:8000/api/metadata > /dev/null && break; sleep 0.5; done
+          curl -fs "http://127.0.0.1:8000/api/overview?day=0&hour=9" | python -c "import json,sys; assert len(json.load(sys.stdin)['routes']) == 13"
+          curl -fs http://127.0.0.1:8000/ | grep -q CampusCommute
